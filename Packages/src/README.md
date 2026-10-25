@@ -129,10 +129,10 @@ _This package requires **Unity 2020.3 or later**._
 ### Install via UPM (with Package Manager UI)
 
 - Click `Window > Package Manager` to open Package Manager UI.
-- Click `+ > Add package from git URL...` and input the repository URL: `https://github.com/mob-sakai/UIEffect.git?path=Packages/src`  
+- Click `+ > Add package from git URL...` and input the repository URL: `https://github.com/thanhdv143fork/UIEffect.git?path=Packages/src`  
   ![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/upm-add-from-url.png)
 - To update the package, change suffix `#{version}` to the target version.
-    - e.g. `https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.9.0`
+    - e.g. `https://github.com/thanhdv143fork/UIEffect.git?path=Packages/src#5.9.0`
 
 ### Install via UPM (Manually)
 
@@ -140,14 +140,14 @@ _This package requires **Unity 2020.3 or later**._
   ```json
   {
     "dependencies": {
-      "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src",
+      "com.coffee.ui-effect": "https://github.com/thanhdv143fork/UIEffect.git?path=Packages/src",
       ...
     }
   }
   ```
 
 - To update the package, change suffix `#{version}` to the target version.
-    - e.g. `"com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#5.9.0",`
+    - e.g. `"com.coffee.ui-effect": "https://github.com/thanhdv143fork/UIEffect.git?path=Packages/src#5.9.0",`
 
 ### Install as Embedded Package
 
@@ -176,12 +176,12 @@ If upgrading from UIEffect v4 to v5, note the following breaking changes:
 1. If you are installing via git URL, add `?path=Packages/src`. The default branch is changed `upm` to `main`.
    ```json
    // v4
-   "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git",
-   "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git#upm",
+   "com.coffee.ui-effect": "https://github.com/thanhdv143fork/UIEffect.git",
+   "com.coffee.ui-effect": "https://github.com/thanhdv143fork/UIEffect.git#upm",
    
    // v5
-   "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src",
-   "com.coffee.ui-effect": "https://github.com/mob-sakai/UIEffect.git?path=Packages/src#main",
+   "com.coffee.ui-effect": "https://github.com/thanhdv143fork/UIEffect.git?path=Packages/src",
+   "com.coffee.ui-effect": "https://github.com/thanhdv143fork/UIEffect.git?path=Packages/src#main",
    ```
 
 2. Import the `v4 Compatible Components` sample from the Package Manager window.  

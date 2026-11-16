@@ -1,3 +1,13 @@
+## [5.11.9](https://github.com/thanhdv143fork/UIEffect/compare/v5.11.8...5.11.9) (2026-11-16)
+
+
+### Bug Fixes
+
+* color filter does not reflect the correct color space. ([6cbb793](https://github.com/thanhdv143fork/UIEffect/commit/6cbb793d8d421a14c6c694ea08914506607171fc)), closes [#409](https://github.com/thanhdv143fork/UIEffect/issues/409)
+* improve tweener editor ([4a49e9a](https://github.com/thanhdv143fork/UIEffect/commit/4a49e9a8b22e7c77851eef6810c3106e716cbb93))
+* support Unity 6.6+ with ShaderGraph package ([e856b0b](https://github.com/thanhdv143fork/UIEffect/commit/e856b0b9396025c3352054e65b090421ab2e3b40))
+* tweener does not affect multi-font glyphs (TMP_SubMeshUI) ([485e2df](https://github.com/thanhdv143fork/UIEffect/commit/485e2df9fc305db20aa473972f4a11e219cac7be)), closes [#413](https://github.com/thanhdv143fork/UIEffect/issues/413)
+
 ## [5.11.9](https://github.com/mob-sakai/UIEffect/compare/5.11.8...5.11.9) (2026-11-14)
 
 

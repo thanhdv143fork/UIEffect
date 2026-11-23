@@ -1,14 +1,24 @@
-## [5.11.9](https://github.com/thanhdv143fork/UIEffect/compare/v5.11.8...5.11.9) (2026-11-16)
+# [5.12.0](https://github.com/mob-sakai/UIEffect/compare/5.11.10...5.12.0) (2026-11-17)
+
+
+### Features
+
+* "Additional Resource" can be installed as a package instead of importing as a sample ([afbfcdd](https://github.com/mob-sakai/UIEffect/commit/afbfcdd40c5775390643d9c649e2bc1f223148f8))
+
+## [5.11.10](https://github.com/mob-sakai/UIEffect/compare/5.11.9...5.11.10) (2026-11-17)
 
 
 ### Bug Fixes
 
-* color filter does not reflect the correct color space. ([6cbb793](https://github.com/thanhdv143fork/UIEffect/commit/6cbb793d8d421a14c6c694ea08914506607171fc)), closes [#409](https://github.com/thanhdv143fork/UIEffect/issues/409)
-* improve tweener editor ([4a49e9a](https://github.com/thanhdv143fork/UIEffect/commit/4a49e9a8b22e7c77851eef6810c3106e716cbb93))
-* support Unity 6.6+ with ShaderGraph package ([e856b0b](https://github.com/thanhdv143fork/UIEffect/commit/e856b0b9396025c3352054e65b090421ab2e3b40))
-* tweener does not affect multi-font glyphs (TMP_SubMeshUI) ([485e2df](https://github.com/thanhdv143fork/UIEffect/commit/485e2df9fc305db20aa473972f4a11e219cac7be)), closes [#413](https://github.com/thanhdv143fork/UIEffect/issues/413)
+* added "Show Readme" to the auto-import menu ([27629cd](https://github.com/mob-sakai/UIEffect/commit/27629cdd7c9dd64c053a92fcd69119efffe4a127))
+* fix font path in demo ([3ca1214](https://github.com/mob-sakai/UIEffect/commit/3ca121423382668eee335fbb8bf8308b7f04159b))
+* fix potential NPE in code ([6e8aaf3](https://github.com/mob-sakai/UIEffect/commit/6e8aaf36f00e4a42f7b9d6f79e065d4022b567c2))
+* fix potential NPE in code ([d41d1ad](https://github.com/mob-sakai/UIEffect/commit/d41d1ad21f3b4ce38bb1fae870cf8621ed61a1e8))
+* fix project setting inspector ([d359086](https://github.com/mob-sakai/UIEffect/commit/d359086ed4baaf2bc0bfb64742492e3ea6d6d4b6))
 
 ## [5.11.9](https://github.com/mob-sakai/UIEffect/compare/5.11.8...5.11.9) (2026-11-14)
+
+Fork release: [5.11.9](https://github.com/thanhdv143fork/UIEffect/compare/v5.11.8...5.11.9) (2026-11-16).
 
 
 ### Bug Fixes

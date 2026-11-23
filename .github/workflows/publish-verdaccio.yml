@@ -1,15 +1,22 @@
 name: Publish UPM Package
-run-name: 📦 ${{ github.event.repository.name }}@${{ github.ref_name }} → Verdaccio
+run-name: 📦 ${{ github.event.repository.name }}@${{ inputs.tag || github.ref_name }} → Verdaccio
 
-# Triggered when a Git Tag matching v* is pushed
 on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to publish (for example, v5.12.0)
+        required: true
+        type: string
 
 jobs:
   publish-package:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     # ====================================================================
     # 🔧 PER-PROJECT CONFIG — change this ONE line when copying to a new project
@@ -29,6 +36,8 @@ jobs:
       # Step 1: Checkout the source code at the pushed tag
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.tag || github.ref_name }}
 
       # Step 2: Set up Node.js and point to your Verdaccio registry
       - name: Setup NodeJS & Registry
@@ -51,8 +60,15 @@ jobs:
 
       # Step 4: Pack and publish to Verdaccio using the secure token.
       - name: Publish to Verdaccio
-        run: npm publish
+        run: |
+          if [[ "$RELEASE_TAG" != "v$PACKAGE_VERSION" ]]; then
+            echo "Tag $RELEASE_TAG does not match package version $PACKAGE_VERSION" >&2
+            exit 1
+          fi
+          npm publish
         env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+          PACKAGE_VERSION: ${{ steps.pkg-info.outputs.version }}
           NODE_AUTH_TOKEN: ${{ secrets.VERDACCIO_TOKEN }}
 
       # Step 5: Send a Discord notification based on job result

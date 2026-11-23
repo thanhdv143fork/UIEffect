@@ -13,15 +13,17 @@ namespace Coffee.UIEffects
 {
     public class UIEffectProjectSettings : PreloadedProjectSettings<UIEffectProjectSettings>
     {
-        [Header("Setting")]
+        [HideInInspector]
         [SerializeField]
         internal List<UIEffect> m_RuntimePresets = new List<UIEffect>();
 
+        [HideInInspector]
         [SerializeField]
         internal List<UIEffectPreset> m_RuntimePresetsV2 = new List<UIEffectPreset>();
 
         [Header("Editor")]
         [Tooltip("Use HDR color pickers on color fields.")]
+        [HideInInspector]
         [SerializeField] private bool m_UseHDRColorPicker = true;
 
         [HideInInspector]
@@ -106,6 +108,7 @@ namespace Coffee.UIEffects
             const string tmpSupport = "TextMeshPro Support";
             const string version = "v5.11.0";
 #endif
+            ShaderSampleImporter.RegisterReadmeUrl("https://github.com/mob-sakai/UIEffect#import-additional-resources");
             ShaderSampleImporter.RegisterShaderSamples(new[]
             {
                 // TextMeshPro Support/TextMeshPro Support (Unity 6)

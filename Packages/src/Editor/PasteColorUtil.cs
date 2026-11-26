@@ -12,7 +12,8 @@ namespace Coffee.UIEffects.Editors
 
         internal static void PasteFromClipboard(SerializedProperty color)
         {
-            if (!TryParseColor(GUIUtility.systemCopyBuffer, out var value))
+            var clipboard = GUIUtility.systemCopyBuffer;
+            if (!TryParseColor(clipboard, out var value))
             {
                 EditorUtility.DisplayDialog("Paste Color",
                     $"Supported formats are {SupportedFormats}, or CSS background/background-color declarations containing one of these values.",
@@ -20,7 +21,7 @@ namespace Coffee.UIEffects.Editors
                 return;
             }
 
-            color.colorValue = value;
+            color.colorValue = ApplyPasteColorCorrection(value);
         }
 
         internal static bool TryParseColor(string text, out Color color)
@@ -84,6 +85,11 @@ namespace Coffee.UIEffects.Editors
 
             color = new Color(red, green, blue, alpha);
             return true;
+        }
+
+        private static Color ApplyPasteColorCorrection(Color color)
+        {
+            return UIEffectProjectSettings.enableColorCorrection ? color.linear : color;
         }
 
         private static bool TryExtractCssColorValue(string text, out string value)

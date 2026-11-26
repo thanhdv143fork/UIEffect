@@ -19,7 +19,6 @@ namespace Coffee.UIEffects.Editors
             (Action<SerializedProperty, Gradient>)Delegate.CreateDelegate(typeof(Action<SerializedProperty, Gradient>),
                 s_PiGradient.SetMethod);
 
-        private static GUIContent s_ReverseGradientContent;
         private static GUIContent s_PasteColorContent;
         private static GUIContent s_PasteGradientContent;
         private static readonly GUIContent s_RotationLabel = new GUIContent("* Rotation");
@@ -110,14 +109,19 @@ namespace Coffee.UIEffects.Editors
         private SerializedProperty _detailTexOffset;
         private SerializedProperty _detailTexSpeed;
 
+        private SerializedProperty _roundCornerMode;
+        private SerializedProperty _roundCornerRadiusTopLeft;
+        private SerializedProperty _roundCornerRadiusTopRight;
+        private SerializedProperty _roundCornerRadiusBottomRight;
+        private SerializedProperty _roundCornerRadiusBottomLeft;
+
         private SerializedProperty _flip;
 
         protected virtual void OnEnable()
         {
-            if (s_ReverseGradientContent == null)
+            if (s_PasteColorContent == null)
             {
                 var iconDir = "Packages/com.coffee.ui-effect/Editor/Icons";
-                s_ReverseGradientContent = Misc.GetIconContent($"{iconDir}/ReverseIcon.png", "Reverse gradient");
                 s_PasteColorContent = Misc.GetIconContent($"{iconDir}/PasteIcon.png",
                     $"Paste {PasteColorUtil.SupportedFormats} or CSS background/background-color declarations.");
                 s_PasteGradientContent = Misc.GetIconContent($"{iconDir}/PasteIcon.png",
@@ -211,6 +215,13 @@ namespace Coffee.UIEffects.Editors
             _detailTexScale = serializedObject.FindProperty("m_DetailTexScale");
             _detailTexOffset = serializedObject.FindProperty("m_DetailTexOffset");
             _detailTexSpeed = serializedObject.FindProperty("m_DetailTexSpeed");
+
+            _roundCornerMode = serializedObject.FindProperty("m_RoundCornerMode");
+            var roundCornerRadius = serializedObject.FindProperty("m_RoundCornerRadius");
+            _roundCornerRadiusTopLeft = roundCornerRadius.FindPropertyRelative("x");
+            _roundCornerRadiusTopRight = roundCornerRadius.FindPropertyRelative("y");
+            _roundCornerRadiusBottomRight = roundCornerRadius.FindPropertyRelative("z");
+            _roundCornerRadiusBottomLeft = roundCornerRadius.FindPropertyRelative("w");
 
             _flip = serializedObject.FindProperty("m_Flip");
         }
@@ -378,7 +389,18 @@ namespace Coffee.UIEffects.Editors
 
             // Gradient
             DrawSeparator();
-            if (DrawHeaderPopup(_gradationMode))
+            EditorGUILayout.BeginHorizontal();
+            var isGradationEnabled = DrawHeaderPopup(_gradationMode);
+            if (GUILayout.Button(s_PasteGradientContent, "IconButton"))
+            {
+                PasteGradientUtil.PasteFromClipboard(_gradationGradient, s_SetGradient,
+                    _gradationMode, _gradationRotation, _gradationOffset, _gradationScale, _gradationWrapMode,
+                    _gradationReverse);
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            if (isGradationEnabled)
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_gradationColorFilter);
@@ -480,6 +502,18 @@ namespace Coffee.UIEffects.Editors
                 EditorGUI.indentLevel--;
             }
 
+            // Round Corner
+            DrawSeparator();
+            if (DrawHeaderPopup(_roundCornerMode))
+            {
+                EditorGUI.indentLevel++;
+                DrawRoundCornerRadiusField(_roundCornerRadiusTopLeft, "Top Left");
+                DrawRoundCornerRadiusField(_roundCornerRadiusTopRight, "Top Right");
+                DrawRoundCornerRadiusField(_roundCornerRadiusBottomRight, "Bottom Right");
+                DrawRoundCornerRadiusField(_roundCornerRadiusBottomLeft, "Bottom Left");
+                EditorGUI.indentLevel--;
+            }
+
             // Flip
             DrawSeparator();
             DrawHeaderPopup(_flip);
@@ -505,6 +539,16 @@ namespace Coffee.UIEffects.Editors
             EditorGUI.indentLevel = indentLevel;
         }
 
+        private static void DrawRoundCornerRadiusField(SerializedProperty property, string label)
+        {
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(property, EditorGUIUtility.TrTempContent(label));
+            if (EditorGUI.EndChangeCheck())
+            {
+                property.floatValue = Mathf.Max(0, property.floatValue);
+            }
+        }
+
         private static void DrawColorPickerField(Rect rect, SerializedProperty color, bool showAlpha)
         {
             var label = EditorGUIUtility.TrTempContent(color.displayName);
@@ -525,7 +569,7 @@ namespace Coffee.UIEffects.Editors
             var colorValue = EditorGUI.ColorField(colorRect, label, color.colorValue, true, showAlpha, hdr);
             if (EditorGUI.EndChangeCheck())
             {
-                color.colorValue = colorValue;
+                color.colorValue = UIEffectProjectSettings.enableColorCorrection ? colorValue : colorValue.gamma;
             }
 
             if (GUI.Button(pasteRect, s_PasteColorContent, "IconButton"))
@@ -537,55 +581,17 @@ namespace Coffee.UIEffects.Editors
         private static void DrawGradientField(SerializedProperty gradient)
         {
             var r = EditorGUILayout.GetControlRect();
-            const float reverseWidth = 20f;
-            const float pasteWidth = 20f;
-            var gradientRect = new Rect(r.x, r.y, r.width - reverseWidth - pasteWidth - 4, r.height);
-            var reverseRect = new Rect(gradientRect.xMax + 2, r.y, reverseWidth, r.height);
-            var pasteRect = new Rect(reverseRect.xMax + 2, r.y, pasteWidth, r.height);
             var label = EditorGUIUtility.TrTempContent(gradient.displayName);
             label.tooltip = gradient.tooltip;
             var hdr = UIEffectProjectSettings.useHdrColorPicker;
             EditorGUI.showMixedValue = gradient.hasMultipleDifferentValues;
 
             EditorGUI.BeginChangeCheck();
-            var gradientValue = EditorGUI.GradientField(gradientRect, label, s_GetGradient(gradient), hdr);
+            var gradientValue = EditorGUI.GradientField(r, label, s_GetGradient(gradient), hdr);
             if (EditorGUI.EndChangeCheck())
             {
                 s_SetGradient(gradient, gradientValue);
             }
-
-            if (GUI.Button(reverseRect, s_ReverseGradientContent, "IconButton"))
-            {
-                ReverseGradient(gradient);
-            }
-
-            if (GUI.Button(pasteRect, s_PasteGradientContent, "IconButton"))
-            {
-                PasteGradientUtil.PasteFromClipboard(gradient, s_GetGradient, s_SetGradient);
-            }
-        }
-
-        private static void ReverseGradient(SerializedProperty property)
-        {
-            var source = s_GetGradient(property);
-            var colorKeys = source.colorKeys;
-            var alphaKeys = source.alphaKeys;
-            for (var i = 0; i < colorKeys.Length; i++)
-            {
-                colorKeys[i].time = 1f - colorKeys[i].time;
-            }
-
-            for (var i = 0; i < alphaKeys.Length; i++)
-            {
-                alphaKeys[i].time = 1f - alphaKeys[i].time;
-            }
-
-            Array.Reverse(colorKeys);
-            Array.Reverse(alphaKeys);
-
-            var reversed = new Gradient { mode = source.mode };
-            reversed.SetKeys(colorKeys, alphaKeys);
-            s_SetGradient(property, reversed);
         }
 
         private static void DrawColor(SerializedProperty color, ColorFilter filter, ColorFilter prevFilter,

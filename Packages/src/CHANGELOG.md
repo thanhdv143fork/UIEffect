@@ -1,3 +1,31 @@
+# [5.15.0](https://github.com/mob-sakai/UIEffect/compare/5.14.1...5.15.0) (2026-11-26)
+
+
+### Features
+
+* add `Round Corner` feature ([417e92c](https://github.com/mob-sakai/UIEffect/commit/417e92cebadfcbd0063d32aa8fc32716d94dbc2f)), closes [#403](https://github.com/mob-sakai/UIEffect/issues/403)
+
+## [5.14.1](https://github.com/mob-sakai/UIEffect/compare/5.14.0...5.14.1) (2026-11-26)
+
+
+### Bug Fixes
+
+* queue TextMeshPro parent for submesh rebuild ([240ac6b](https://github.com/mob-sakai/UIEffect/commit/240ac6b206229dfcdba7a3f38341ae9b198aff6f)), closes [#416](https://github.com/mob-sakai/UIEffect/issues/416)
+
+# [5.14.0](https://github.com/mob-sakai/UIEffect/compare/5.13.0...5.14.0) (2026-11-25)
+
+
+### Bug Fixes
+
+* output colors for gradients are incorrect when `enableColorCorrection=true` ([587ff28](https://github.com/mob-sakai/UIEffect/commit/587ff28e91d229baa5c56d0ac58030b44ddf7271))
+* paste color is incorrect when `enableColorCorrection=true` ([7be2bf4](https://github.com/mob-sakai/UIEffect/commit/7be2bf463dc91feb41d4585841ddc489f0302433))
+* picked color is incorrect when `enableColorCorrection=true` ([8d906a7](https://github.com/mob-sakai/UIEffect/commit/8d906a78365147833c8d9ba58224c7819a957d4d))
+
+
+### Features
+
+* improve CSS gradient paste handling ([50c0e47](https://github.com/mob-sakai/UIEffect/commit/50c0e475ca9c77fe4584f8be8478e243fb193c6f)), closes [#415](https://github.com/mob-sakai/UIEffect/issues/415)
+
 # [5.13.0](https://github.com/mob-sakai/UIEffect/compare/5.12.1...5.13.0) (2026-11-25)
 
 

@@ -53,6 +53,7 @@ Apply professional-grade filters like grayscale, blur, and dissolve directly fro
     - [Gradation Mode](#gradation-mode)
     - [Edge Mode](#edge-mode)
     - [Detail Filter](#detail-filter)
+    - [Round Corner](#round-corner)
     - [Flip](#flip)
     - [Others](#others)
   - [Component: UIEffectTweener](#component-uieffecttweener)
@@ -395,7 +396,7 @@ The `UIEffect` component applies visual effects to UI elements, allowing various
 
 #### Gradation Mode
 
-![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/1795598315442.png)
+![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/1795615744853.png)
 
 - **Gradation Mode**: `None`, `Horizontal`, `HorizontalGradient`, `Vertical`, `VerticalGradient`, `Radial`, `RadialGradient`, `Diagonal`, `DiagonalToRightBottom`, `DiagonalToLeftBottom`, `Angle`, `AngleGradient`  
   ![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/1749461050342.png)
@@ -414,11 +415,8 @@ The `UIEffect` component applies visual effects to UI elements, allowing various
   - ⚠️ NOTE: `Keep Aspect Ratio` is shared with `Transition Filter` and `Gradation Mode` and `Detail Filter`.
 
 > [!TIP]
-> The paste button beside a gradient field accepts CSS `linear-gradient(...)` and `radial-gradient(...)` values, importing their color stops and positions. CSS direction and shape are not applied.  
+> The paste button beside the Gradation Mode selector accepts CSS `linear-gradient(...)` and `radial-gradient(...)` values, including gradients in CSS `background` declarations. It imports the color stops and positions, selects `AngleGradient` or `RadialGradient`, and resets the gradation offset and scale. Explicit linear-gradient directions and angles (`deg`, `grad`, `rad`, or `turn`) are applied to the rotation. CSS radial-gradient shape, size, and position are not imported.
 > This is useful when copying and pasting color codes from CSS, USS, Figma, Photoshop, etc.
-
-> [!TIP]
-> Click the reverse button beside a gradient field to reverse its color and alpha stops.
 
 <br>
 
@@ -455,6 +453,18 @@ The `UIEffect` component applies visual effects to UI elements, allowing various
 
 <br>
 
+#### Round Corner
+
+![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/1795682060095.png)
+
+- **Mode**: `Off` or `On`. The default is `Off`.
+- **Top Left**, **Top Right**, **Bottom Right**, **Bottom Left**: Set each corner radius independently.  
+  ![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/1795681588650.png)
+- Radius values use `transitionRoot` local units. They are normalized against its shorter dimension and clamped to half that dimension; `0` keeps a corner square.
+- The mask applies to the main UI surface; Shadow and Mirror outputs are left unchanged to avoid shadow-edge artifacts.
+
+<br>
+
 #### Flip
 
 ![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/1744762521061.png)
@@ -479,7 +489,7 @@ The `UIEffect` component applies visual effects to UI elements, allowing various
 - **Custom Root**: Use the custom transform for some effects.
 
 > [!TIP]  
-> `Transition Filter`, `Gradation Filter`, and `Detail Filter` usually refer to their own `RectTransform` when applying effects.  
+> `Transition Filter`, `Gradation Filter`, `Detail Filter`, and `Round Corner` use their effect root for local-coordinate calculations.
 > For example, if the mesh shape exceeds the `RectTransform` boundaries, the effect may not be applied correctly.  
 > By specifying `Custom Root`, you can refer to the specified transform.
 > ![](https://github.com/mob-sakai/mob-sakai/releases/download/docs/uieffect5.7.0-sample-custom-root.gif)
